@@ -29,7 +29,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = "категория"
         verbose_name_plural = "категории"
-        ordering = ('name',)
+        ordering = ("name",)
 
 
 class Product(models.Model):
@@ -57,7 +57,7 @@ class Product(models.Model):
     )
 
     category = models.ForeignKey(
-        'Category',
+        "Category",
         on_delete=models.SET_NULL,
         verbose_name="Категория",
         help_text="Введите категорию товара",
@@ -65,19 +65,17 @@ class Product(models.Model):
         **NULLABLE,
     )
 
-    price = models.DecimalField(max_digits=12,
-                                decimal_places=2,
-                                verbose_name='Цена',
-                                help_text="Введите цену",
-                                default=0.0)
-
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Дата создания"
+    price = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        verbose_name="Цена",
+        help_text="Введите цену",
+        default=0.0,
     )
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name="Дата последнего изменения"
+        auto_now=True, verbose_name="Дата последнего изменения"
     )
 
     def __str__(self):
@@ -86,4 +84,10 @@ class Product(models.Model):
     class Meta:
         verbose_name = "товар"
         verbose_name_plural = "товары"
-        ordering = ('name', 'price', 'created_at', 'updated_at', 'category',)
+        ordering = (
+            "name",
+            "price",
+            "created_at",
+            "updated_at",
+            "category",
+        )
