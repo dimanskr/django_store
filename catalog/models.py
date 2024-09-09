@@ -78,8 +78,6 @@ class Product(models.Model):
         auto_now=True, verbose_name="Дата последнего изменения"
     )
 
-    manufactured_at = models.DateTimeField(**NULLABLE, verbose_name="Дата производства продукта")
-
     def __str__(self):
         return f"{self.name}"
 
