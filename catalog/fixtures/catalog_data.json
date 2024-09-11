@@ -1,0 +1,96 @@
+[
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Ноутбуки",
+      "description": "Ноутбуки по ценам от производителя"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Смартфоны",
+      "description": "Широкий выбор смартфонов от бюджетных до брендовых моделей"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "name": "Смартфон1",
+      "description": "Бюджетный смартфон для детей",
+      "preview": "preview/smartphone1.jpg",
+      "category": 2,
+      "price": "6000.00",
+      "created_at": "2024-09-10T19:19:19.604Z",
+      "updated_at": "2024-09-10T19:19:19.604Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "name": "Смартфон2",
+      "description": "Смартфон средней ценовой категории",
+      "preview": "preview/smartphone2.jpg",
+      "category": 2,
+      "price": "20000.00",
+      "created_at": "2024-09-10T19:20:29.842Z",
+      "updated_at": "2024-09-10T19:20:29.842Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "name": "Смартфон3",
+      "description": "Смартфон топовой категории с отличными характеристиками",
+      "preview": "preview/smartphone3.jpg",
+      "category": 2,
+      "price": "99000.00",
+      "created_at": "2024-09-10T19:21:28.018Z",
+      "updated_at": "2024-09-10T19:21:28.018Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+      "name": "Ноутбук1",
+      "description": "Надежный ноутбук для учебы и работы",
+      "preview": "preview/laptop1.jpg",
+      "category": 1,
+      "price": "35000.00",
+      "created_at": "2024-09-10T19:22:23.665Z",
+      "updated_at": "2024-09-10T19:22:23.665Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+      "name": "Ноутбук2",
+      "description": "Ноутбук для с хорошими характеристиками для работы с графикой",
+      "preview": "preview/laptop2.jpg",
+      "category": 1,
+      "price": "72000.00",
+      "created_at": "2024-09-10T19:23:39.163Z",
+      "updated_at": "2024-09-10T19:23:39.163Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+      "name": "Ноутбук3",
+      "description": "Топовый ноутбук с ярким экраном разрешения 2К, дискретной видеокартой и мощной батареей в компактном исполнении",
+      "preview": "preview/laptop3.jpg",
+      "category": 1,
+      "price": "190000.00",
+      "created_at": "2024-09-10T19:27:16.682Z",
+      "updated_at": "2024-09-10T19:27:16.682Z"
+    }
+  }
+]
