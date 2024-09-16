@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from catalog.models import Product, Category
 
 
@@ -8,7 +7,9 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
+        "description",
     )
+    list_display_links = ("name",)
 
 
 @admin.register(Product)
@@ -16,6 +17,12 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
+        "preview",
+        "price",
+        "category",
+    )
+    list_editable = (
+        "preview",
         "price",
         "category",
     )
@@ -24,3 +31,4 @@ class ProductAdmin(admin.ModelAdmin):
         "name",
         "description",
     )
+    list_display_links = ("name",)
