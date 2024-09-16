@@ -20,16 +20,16 @@ class Category(models.Model):
         **NULLABLE,
     )
 
+    class Meta:
+        verbose_name = "категория"
+        verbose_name_plural = "категории"
+        ordering = ("name",)
+
     def __str__(self):
         """
         Строковое категории
         """
         return f"{self.name}"
-
-    class Meta:
-        verbose_name = "категория"
-        verbose_name_plural = "категории"
-        ordering = ("name",)
 
 
 class Product(models.Model):
@@ -78,9 +78,6 @@ class Product(models.Model):
         auto_now=True, verbose_name="Дата последнего изменения"
     )
 
-    def __str__(self):
-        return f"{self.name}"
-
     class Meta:
         verbose_name = "товар"
         verbose_name_plural = "товары"
@@ -91,3 +88,6 @@ class Product(models.Model):
             "updated_at",
             "category",
         )
+
+    def __str__(self):
+        return f"{self.name}"
