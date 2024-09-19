@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
+from django.contrib import messages
 
+from catalog.forms import ProductForm
 from catalog.models import Product
 
 
@@ -38,3 +40,14 @@ def contacts(request):
     title = "Контакты"
     context = {"title": title}
     return render(request, 'catalog/contacts.html', context)
+
+
+def create_product(request):
+    form = ProductForm(request.POST or None, request.FILES or None)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, 'Товар успешно добавлен!')
+        form = ProductForm()  # Очищаем форму после сохранения
+
+    return render(request, 'catalog/create_product.html', {'form': form})
