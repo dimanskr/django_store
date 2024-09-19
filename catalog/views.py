@@ -11,6 +11,6 @@ def contacts(request):
         phone = request.POST.get('phone')
         message = request.POST.get('message')
         # выводим в консоль информацию о пользователе
-        print(f"Пользователь {name} оставил комментарий '{message}'"
+        print(f"Пользователь {name} оставил комментарий '{message}'"    
               f" и просил связаться с ним по телефону {phone} ")
     return render(request, 'catalog/contacts.html')

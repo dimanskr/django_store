@@ -91,3 +91,17 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Имя')
+    phone = models.CharField(max_length=12, verbose_name='Телефон')
+    address = models.CharField(max_length=255, verbose_name='Адрес', **NULLABLE)
+
+    class Meta:
+        verbose_name = "контакт"
+        verbose_name_plural = "контакты"
+        ordering = ("name",)
+
+    def __str__(self):
+        return self.name
