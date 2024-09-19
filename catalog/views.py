@@ -1,13 +1,17 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
 
 from catalog.models import Product
 
 
 def product_list(request):
     products = Product.objects.all()
+    paginator = Paginator(products, 9)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     title = "DimStore"
     slogan = "DimStore - это лучший вариант для покупки гаджетов"
-    context = {"products": products,
+    context = {"products": page_obj,
                "title": title,
                "slogan": slogan}
     return render(request, "catalog/product_list.html", context)
