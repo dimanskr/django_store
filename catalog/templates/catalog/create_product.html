@@ -1,0 +1,37 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<div class="row">
+    <h1 class="mt-5">Создать новый товар</h1>
+
+    <!-- Сообщение об успешном добавлении товара -->
+    {% if messages %}
+        <div class="alert alert-success" role="alert">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Форма создания товара -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.name.label_tag }} {{ form.name }}
+        </div>
+        <div class="mb-3">
+            {{ form.description.label_tag }} {{ form.description }}
+        </div>
+        <div class="mb-3">
+            {{ form.preview.label_tag }} {{ form.preview }}
+        </div>
+        <div class="mb-3">
+            {{ form.category.label_tag }} {{ form.category }}
+        </div>
+        <div class="mb-3">
+            {{ form.price.label_tag }} {{ form.price }}
+        </div>
+        <button type="submit" class="btn btn-primary">Добавить товар</button>
+    </form>
+
+</div>
+{% endblock %}

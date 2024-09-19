@@ -1,0 +1,47 @@
+{% extends 'catalog/base.html' %}
+{% load catalog_tags %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb text-bold">
+        <li class="breadcrumb-item" aria-current="page"><a href="{% url 'catalog:product_list' %}">В каталог</a></li>
+    </ol>
+</nav>
+<div class="row">
+    <div class="col-md-5">
+        <div class="main-img">
+            <img class="img-fluid" src="{{ product.preview | media_filter }}"
+                 alt="Product">
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="main-description px-2">
+            <div class="category text-bold">
+                Категория: {{ product.category }}
+            </div>
+            <div class="product-title text-bold my-3">
+                {{ product.name }}
+            </div>
+
+            <div class="price-area my-4">
+                <p class="new-price text-bold mb-1">{{ product.price }} ₽</p>
+            </div>
+
+            <div class="buttons d-flex my-5">
+                <div class="block">
+                    <button class="shadow btn custom-btn">В корзину</button>
+                </div>
+
+                <div class="block quantity">
+                    <input type="number" class="form-control" id="cart_quantity" value="1" min="0" max="5"
+                           placeholder="Enter email" name="cart_quantity">
+                </div>
+            </div>
+        </div>
+
+        <div class="product-details my-4">
+            <p class="details-title text-color mb-1">Описание</p>
+            <p class="description">{{ product.description }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
