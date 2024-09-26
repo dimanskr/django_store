@@ -50,7 +50,7 @@ class Product(models.Model):
     )
 
     preview = models.ImageField(
-        upload_to="preview",
+        upload_to="catalog/preview",
         verbose_name="Изображение",
         help_text="Загрузите изображение товара",
         **NULLABLE,
