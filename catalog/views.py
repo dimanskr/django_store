@@ -1,53 +1,58 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.core.paginator import Paginator
 from django.contrib import messages
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, ListView, DetailView, CreateView
 
 from catalog.forms import ProductForm
 from catalog.models import Product
 
 
-def product_list(request):
-    products = Product.objects.all()
-    paginator = Paginator(products, 9)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    title = "DimStore"
-    slogan = "DimStore - это лучший вариант для покупки гаджетов"
-    context = {"products": page_obj,
-               "title": title,
-               "slogan": slogan}
-    return render(request, "catalog/product_list.html", context)
+class ProductListView(ListView):
+    model = Product
+    extra_context = {
+        'title': 'DimStore',
+        'slogan': 'DimStore - это лучший вариант для покупки гаджетов'
+    }
+    paginate_by = 9
+    context_object_name = "products"
 
 
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    title = "DimStore"
-    slogan = "DimStore - это лучший вариант для покупки гаджетов"
-    context = {"product": product,
-               "title": title,
-               "slogan": slogan}
-    return render(request, "catalog/product_detail.html", context)
+class ProductDetailView(DetailView):
+    model = Product
+    extra_context = {
+        'title': 'DimStore',
+        'slogan': 'DimStore - это лучший вариант для покупки гаджетов'
+    }
+    context_object_name = "product"
 
 
-def contacts(request):
-    if request.method == 'POST':
+class ContactView(TemplateView):
+    template_name = 'catalog/contacts.html'
+    extra_context = {
+        'title': 'Контакты'
+    }
+
+    def post(self, request, *args, **kwargs):
+        # Обрабатываем POST запрос
         name = request.POST.get('name')
         phone = request.POST.get('phone')
         message = request.POST.get('message')
-        # выводим в консоль информацию о пользователе
+
+        # Выводим информацию из post в консоль
         print(f"Пользователь {name} оставил комментарий '{message}'"
               f" и просил связаться с ним по телефону {phone} ")
-    title = "Контакты"
-    context = {"title": title}
-    return render(request, 'catalog/contacts.html', context)
+
+        # Возвращаем ответ
+        context = self.get_context_data()
+        return self.render_to_response(context)
 
 
-def create_product(request):
-    form = ProductForm(request.POST or None, request.FILES or None)
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:create_product')
 
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        messages.success(request, 'Товар успешно добавлен!')
-        form = ProductForm()  # Очищаем форму после сохранения
-
-    return render(request, 'catalog/create_product.html', {'form': form})
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Товар успешно добавлен!')
+        # Очищаем форму после сохранения, перенаправляем обратно на создание
+        return response

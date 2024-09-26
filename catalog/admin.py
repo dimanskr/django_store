@@ -32,6 +32,7 @@ class ProductAdmin(admin.ModelAdmin):
         "description",
     )
     list_display_links = ("name",)
+    ordering = ('-created_at',)
 
 
 @admin.register(Contact)
