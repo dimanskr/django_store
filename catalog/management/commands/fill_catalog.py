@@ -76,7 +76,7 @@ class Command(BaseCommand):
                 data = json.load(file)
 
                 for row in data:
-                    if row["model"] == "catalog.product":
+                    if row["model"] == "blog.product":
                         product_data_json = {
                             "name": row["fields"].get("name"),
                             "description": row["fields"].get("description"),
@@ -103,8 +103,8 @@ class Command(BaseCommand):
         """
         Заполняет данные о продуктах и категориях в БД
         """
-        # получаем список файлов фикстур в папке приложения 'catalog'
-        fixtures_list = self._find_fixture_files(app_name="catalog")
+        # получаем список файлов фикстур в папке приложения 'blog'
+        fixtures_list = self._find_fixture_files(app_name="blog")
 
         # задаем путь к первому из списка файлов фикстур если они нашлись
         if fixtures_list:

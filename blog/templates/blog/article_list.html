@@ -3,32 +3,28 @@
 {% block content %}
 <div class="row">
     <div class="col-4 d-flex justify-content-center">
-        <a class="p-2 btn btn-outline-primary mb-3" href="{% url 'catalog:create_product' %}">Добавить товар</a>
+        <a class="p-2 btn btn-outline-primary mb-3" href="{% url 'blog:article_create' %}">Добавить статью</a>
     </div>
 </div>
-
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-3">
-    {% for product in products %}
-    <div class="col">
-        <a class="image" href="{% url 'catalog:product_detail' product.pk %}">
-            <img src="{{ product.preview | media_filter }}"
-                 class="card-img-top"
-                 alt="Product">
-        </a>
-
-        <div class="card-body">
-            <a class="btn" href="{% url 'catalog:product_detail' product.pk %}">
-                <h4 class="product-title text-bold my-3">{{ product.name }}</h4>
-            </a>
-            <p class="card-text description product-details">{{ product.description | truncatechars:100 }}</p>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="pricing-card-title text-bold">{{ product.price }} ₽</div>
+<div class="row mb-2">
+    {% for object in object_list %}
+    <div class="col-md-6">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+                <h3 class="mb-0">{{ object.title }}</h3>
+                <div class="mb-1 text-muted">{{ object.created_at | date:"d.m.Y"}}</div>
+                <p class="card-text mb-auto">{{ object.body | truncatechars:250 }}</p>
+                <a href="{% url 'blog:article_detail' object.slug %}" class="stretched-link">Продолжить чтение</a>
+            </div>
+            <div class="col-auto d-none d-lg-block">
+                <img src="{{ object.preview | media_filter }}"
+                     alt="Article">
             </div>
         </div>
     </div>
     {% endfor %}
-
 </div>
+{% if is_paginated %}
 <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
@@ -78,4 +74,5 @@
         {% endif %}
     </ul>
 </nav>
+{% endif %}
 {% endblock %}
