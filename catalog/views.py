@@ -49,7 +49,7 @@ class ContactView(TemplateView):
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('catalog:create_product')
+    success_url = reverse_lazy('blog:create_product')
 
     def form_valid(self, form):
         response = super().form_valid(form)
