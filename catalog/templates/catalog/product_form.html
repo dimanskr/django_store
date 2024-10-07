@@ -3,23 +3,46 @@
 <div class="row d-flex justify-content-center">
     <div class="col-6">
         {% if object %}
-            <h1 class="mt-1">Изменить товар</h1>
+        <h1 class="mt-1">Изменить товар</h1>
         {% else %}
-            <h1 class="mt-1">Создать новый товар</h1>
+        <h1 class="mt-1">Создать новый товар</h1>
         {% endif %}
-
-        <!-- Форма создания и изменения товара -->
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">
-                {% if object %}
-                Сохранить изменения
-                {% else %}
-                Добавить товар
-                {% endif %}
-            </button>
-        </form>
     </div>
+</div>
+<!-- Форма создания и изменения товара -->
+
+<div class="col-12">
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">
+                            {% if object %}
+                                Сохранить изменения
+                            {% else %}
+                                Добавить товар
+                            {% endif %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        {{ formset.management_form }}
+                        {% for form in formset.forms %}
+                            {{ form.as_p }}
+                            {% if not forloop.last %}
+                                <hr>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 {% endblock %}

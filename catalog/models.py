@@ -105,3 +105,23 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Version(models.Model):
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.SET_NULL,
+        verbose_name="Продукт",
+        **NULLABLE,
+        related_name="version",)
+    version_number = models.IntegerField(verbose_name='Номер версии')
+    name = models.CharField(max_length=150, verbose_name='Название версии')
+    is_current_version = models.BooleanField(default=False, verbose_name='Признак текущей версии')
+
+    class Meta:
+        verbose_name = "Версия"
+        verbose_name_plural = "Версии"
+        ordering = ("product", "version_number", "name",)
+
+    def __str__(self):
+        return f"{self.name}"

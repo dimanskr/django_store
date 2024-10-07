@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product
+from .models import Product, Version
 
 
 class StyleFormMixin:
@@ -20,7 +20,7 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         fields = "__all__"
 
     prohibited_words_list = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',
-                          'радар']
+                             'радар']
 
     def clean_name(self):
         cleaned_data = self.cleaned_data['name']
@@ -39,3 +39,9 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
                 raise forms.ValidationError('Запрещенные слова в описании!')
 
         return cleaned_data
+
+
+class VersionForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Version
+        fields = "__all__"
