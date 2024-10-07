@@ -2,36 +2,23 @@
 {% block content %}
 <div class="row d-flex justify-content-center">
     <div class="col-6">
-        <h1 class="mt-1">Создать новый товар</h1>
-
-        <!-- Сообщение об успешном добавлении товара -->
-        {% if messages %}
-        <div class="alert alert-success" role="alert">
-            {% for message in messages %}
-            {{ message }}
-            {% endfor %}
-        </div>
+        {% if object %}
+            <h1 class="mt-1">Изменить товар</h1>
+        {% else %}
+            <h1 class="mt-1">Создать новый товар</h1>
         {% endif %}
 
-        <!-- Форма создания товара -->
+        <!-- Форма создания и изменения товара -->
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="mb-3">
-                {{ form.name.label_tag }} {{ form.name }}
-            </div>
-            <div class="mb-3">
-                {{ form.description.label_tag }} {{ form.description }}
-            </div>
-            <div class="mb-3">
-                {{ form.preview.label_tag }} {{ form.preview }}
-            </div>
-            <div class="mb-3">
-                {{ form.category.label_tag }} {{ form.category }}
-            </div>
-            <div class="mb-3">
-                {{ form.price.label_tag }} {{ form.price }}
-            </div>
-            <button type="submit" class="btn btn-primary">Добавить товар</button>
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">
+                {% if object %}
+                Сохранить изменения
+                {% else %}
+                Добавить товар
+                {% endif %}
+            </button>
         </form>
     </div>
 </div>

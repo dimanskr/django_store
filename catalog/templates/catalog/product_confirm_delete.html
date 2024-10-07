@@ -1,0 +1,13 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<div class="position-relative w-100 vh-100">
+    <form method="post" class="position-absolute top-50 start-50 translate-middle ">
+        {% csrf_token %}
+        <p>Вы действительно хотите удалить товар <b>{{ object.name }}</b>?</p>
+        <div class="btn-group justify-content-center w-100" role="group">
+            <a href="{% url 'catalog:product_detail' object.pk %}" class="btn btn-success">Отмена</a>
+            <button class="btn btn-danger" type="submit">Удалить</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

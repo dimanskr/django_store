@@ -1,6 +1,5 @@
-from django.contrib import messages
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, ListView, DetailView, CreateView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from catalog.forms import ProductForm
 from catalog.models import Product
@@ -49,10 +48,17 @@ class ContactView(TemplateView):
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('blog:create_product')
+    success_url = reverse_lazy('catalog:create_product')
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        messages.success(self.request, 'Товар успешно добавлен!')
-        # Очищаем форму после сохранения, перенаправляем обратно на создание
-        return response
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+
+    def get_success_url(self):
+        return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('catalog:product_list')
