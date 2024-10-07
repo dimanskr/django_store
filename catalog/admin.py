@@ -1,5 +1,5 @@
 from django.contrib import admin
-from catalog.models import Product, Category, Contact
+from catalog.models import Product, Category, Contact, Version
 
 
 @admin.register(Category)
@@ -32,7 +32,7 @@ class ProductAdmin(admin.ModelAdmin):
         "description",
     )
     list_display_links = ("name",)
-    ordering = ('-created_at',)
+    ordering = ("-created_at",)
 
 
 @admin.register(Contact)
@@ -48,3 +48,14 @@ class ContactAdmin(admin.ModelAdmin):
         "address",
     )
     list_display_links = ("name",)
+
+
+@admin.register(Version)
+class VersionAdmin(admin.ModelAdmin):
+    list_display = (
+        "product",
+        "version_number",
+        "name",
+        "is_current_version",
+    )
+    list_filter = ("product",)
