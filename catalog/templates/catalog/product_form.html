@@ -1,5 +1,6 @@
 {% extends 'catalog/base.html' %}
 {% block content %}
+{% load django_bootstrap5 %}
 <div class="row d-flex justify-content-center">
     <div class="col-6">
         {% if object %}
@@ -18,13 +19,12 @@
                 <div class="card">
                     <div class="card-body">
                         {% csrf_token %}
-                        {{ formset.non_form_errors }}
-                        {{ form.as_p }}
+                        {% bootstrap_form form %}
                         <button type="submit" class="btn btn-primary">
                             {% if object %}
-                                Сохранить изменения
+                            Сохранить изменения
                             {% else %}
-                                Добавить товар
+                            Добавить товар
                             {% endif %}
                         </button>
                     </div>
@@ -34,8 +34,9 @@
                 <div class="card">
                     <div class="card-body">
                         {{ formset.management_form }}
+                        {% bootstrap_formset_errors formset layout='inline' %}
                         {% for form in formset.forms %}
-                            {{ form.as_p }}
+                            {% bootstrap_form form %}
                             {% if not forloop.last %}
                                 <hr>
                             {% endif %}

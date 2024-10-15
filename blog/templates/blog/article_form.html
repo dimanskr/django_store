@@ -1,5 +1,6 @@
 {% extends 'catalog/base.html' %}
 {% block content %}
+{% load django_bootstrap5 %}
 <div class="row d-flex justify-content-center">
     <div class="col-6">
         {% if object %}
@@ -10,7 +11,7 @@
         <!-- Форма создания и редактирования статьи -->
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
+            {% bootstrap_form form %}
             <button type="submit" class="btn btn-primary">
                 {% if object %}
                     Сохранить изменения
