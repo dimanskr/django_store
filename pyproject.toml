@@ -12,6 +12,8 @@ psycopg2-binary = "^2.9.9"
 pillow = "^10.4.0"
 pytils = "^0.4.1"
 django-bootstrap5 = "^24.3"
+django-phonenumber-field = "^8.0.0"
+phonenumbers = "^8.13.47"
 
 
 [tool.poetry.group.dev.dependencies]
