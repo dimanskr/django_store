@@ -14,6 +14,7 @@
     <div class="col-md-3 text-end d-flex">
         {% if user.is_authenticated %}
         <span class="me-3"><b>{{ user.email }}</b></span>
+        <a class="btn btn-outline-primary me-2" href="{% url 'users:profile' %}">Профиль</a>
         <form method="post" action="{% url 'users:logout' %}">
             {% csrf_token %}
             <button class="btn btn-outline-primary me-2" type="submit">Выход</button>

@@ -1,8 +1,8 @@
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView
-from users.forms import UserRegisterForm, PasswordResetForm
+from django.views.generic import CreateView, UpdateView
+from users.forms import UserRegisterForm, PasswordResetForm, UserProfileForm
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth.hashers import make_password
 from users.models import User
@@ -42,9 +42,7 @@ def email_verification(request, token):
 
 
 class UserPasswordResetView(PasswordResetView):
-    """
-    Контроллер для восстановления пароля
-    """
+    """ Контроллер восстановления пароля """
     template_name = "users/password_reset_form.html"
     form_class = PasswordResetForm
     success_url = reverse_lazy("users:login")
@@ -69,3 +67,11 @@ class UserPasswordResetView(PasswordResetView):
 
         return super().form_valid(form)
 
+
+class ProfileView(UpdateView):
+    model = User
+    form_class = UserProfileForm
+    success_url = reverse_lazy("users:profile")
+
+    def get_object(self, queryset=None):
+        return self.request.user
