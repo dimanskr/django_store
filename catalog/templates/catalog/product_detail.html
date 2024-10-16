@@ -43,9 +43,11 @@
             <p class="description">{{ product.description }}</p>
         </div>
     </div>
+    {% if user.is_authenticated %}
     <div class="mt-4 btn-group" role="group">
         <a href="{% url 'catalog:product_update' object.pk %}" class="btn btn-primary m-1">Изменить продукт</a>
         <a href="{% url 'catalog:product_delete' object.pk %}" class="btn btn-danger m-1">Удалить продукт</a>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
