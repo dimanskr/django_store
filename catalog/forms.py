@@ -5,7 +5,7 @@ from .models import Product, Version
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = "__all__"
+        exclude = ("owner",)
 
     prohibited_words_list = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция',
                              'радар']

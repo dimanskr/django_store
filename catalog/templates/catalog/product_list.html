@@ -1,11 +1,13 @@
 {% extends 'catalog/base.html' %}
 {% load catalog_tags %}
 {% block content %}
+{% if user.is_authenticated %}
 <div class="row">
     <div class="col-4 d-flex justify-content-center">
         <a class="p-2 btn btn-outline-primary mb-3" href="{% url 'catalog:create_product' %}">Добавить товар</a>
     </div>
 </div>
+{% endif %}
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-3">
     {% for product in products %}
