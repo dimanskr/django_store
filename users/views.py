@@ -2,7 +2,7 @@ from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
-from users.forms import UserRegisterForm, PasswordResetForm, UserProfileForm
+from users.forms import UserRegisterForm, UserProfileForm
 from django.contrib.auth.views import PasswordResetView, PasswordChangeView
 from django.contrib.auth.hashers import make_password
 from users.models import User
