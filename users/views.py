@@ -3,9 +3,11 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
 from users.forms import UserRegisterForm, PasswordResetForm, UserProfileForm
-from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth.views import PasswordResetView, PasswordChangeView
 from django.contrib.auth.hashers import make_password
 from users.models import User
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from config.settings import EMAIL_HOST_USER
 import secrets
 from users.utils import generate_random_password
@@ -44,7 +46,6 @@ def email_verification(request, token):
 class UserPasswordResetView(PasswordResetView):
     """ Контроллер восстановления пароля """
     template_name = "users/password_reset_form.html"
-    form_class = PasswordResetForm
     success_url = reverse_lazy("users:login")
 
     def form_valid(self, form):
@@ -61,17 +62,28 @@ class UserPasswordResetView(PasswordResetView):
                 from_email=EMAIL_HOST_USER,
                 recipient_list=[user.email],
             )
+            messages.success(self.request, 'Ваш пароль был успешно изменен!')
             return redirect(reverse("users:login"))
         except User.DoesNotExist:
-            pass
+            messages.warning(self.request, 'Пользователя, зарегистрированного с таким email, на сайте нет!')
 
         return super().form_valid(form)
 
 
-class ProfileView(UpdateView):
+class ProfileView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserProfileForm
     success_url = reverse_lazy("users:profile")
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class UserPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    """ Контроллер изменения пароля """
+    template_name = "users/password_change_form.html"
+    success_url = reverse_lazy("users:profile")
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Ваш пароль был успешно изменен!')
+        return super().form_valid(form)
