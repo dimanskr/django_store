@@ -13,7 +13,7 @@ class Article(models.Model):
     body = models.TextField(verbose_name='содержимое')
     preview = models.ImageField(upload_to="blog/preview", verbose_name="изображение", **NULLABLE)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="дата создания")
-    is_published = models.BooleanField(default=True, verbose_name='опубликовано')
+    is_published = models.BooleanField(default=False, verbose_name='опубликовано')
     view_count = models.PositiveIntegerField(default=0, verbose_name='количество просмотров')
 
     class Meta:
