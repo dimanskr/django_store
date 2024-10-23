@@ -83,6 +83,12 @@ class Product(models.Model):
         **NULLABLE,
     )
 
+    is_published = models.BooleanField(
+        default=False,
+        verbose_name="Опубликовано",
+        help_text="Отметить для публикации"
+    )
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(
         auto_now=True, verbose_name="Дата последнего изменения"
@@ -98,15 +104,20 @@ class Product(models.Model):
             "updated_at",
             "category",
         )
+        permissions = [
+            ('can_set_published', 'Can set published'),
+            ('can_edit_product_description', 'Can edit description'),
+            ('can_edit_category_product', 'Can edit category',),
+        ]
 
     def __str__(self):
         return f"{self.name}"
 
 
 class Contact(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Имя')
-    phone = models.CharField(max_length=12, verbose_name='Телефон')
-    address = models.CharField(max_length=255, verbose_name='Адрес', **NULLABLE)
+    name = models.CharField(max_length=100, verbose_name="Имя")
+    phone = models.CharField(max_length=12, verbose_name="Телефон")
+    address = models.CharField(max_length=255, verbose_name="Адрес", **NULLABLE)
 
     class Meta:
         verbose_name = "контакт"
@@ -123,15 +134,22 @@ class Version(models.Model):
         on_delete=models.SET_NULL,
         verbose_name="Продукт",
         **NULLABLE,
-        related_name="version",)
-    version_number = models.IntegerField(verbose_name='Номер версии')
-    name = models.CharField(max_length=150, verbose_name='Название версии')
-    is_current_version = models.BooleanField(default=False, verbose_name='Признак текущей версии')
+        related_name="version",
+    )
+    version_number = models.IntegerField(verbose_name="Номер версии")
+    name = models.CharField(max_length=150, verbose_name="Название версии")
+    is_current_version = models.BooleanField(
+        default=False, verbose_name="Признак текущей версии"
+    )
 
     class Meta:
         verbose_name = "Версия"
         verbose_name_plural = "Версии"
-        ordering = ("product", "version_number", "name",)
+        ordering = (
+            "product",
+            "version_number",
+            "name",
+        )
 
     def __str__(self):
         return f"{self.name}"
