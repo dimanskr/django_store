@@ -1,8 +1,10 @@
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
-from catalog.forms import ProductForm, ProductVersionFormSet
+from catalog.forms import ProductForm, ProductVersionFormSet, ProductModeratorsForm
 from catalog.models import Product, Version
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 
 
 class ProductListView(ListView):
@@ -20,6 +22,20 @@ class ProductListView(ListView):
             active_version = Version.objects.filter(product=product, is_current_version=True).first()
             product.active_version = active_version
         return context_data
+
+    def get_queryset(self):
+        user = self.request.user
+
+        # Модератор с правом "can_set_published" видит все продукты
+        if user.has_perm('catalog.can_set_published'):
+            return Product.objects.all()
+
+        # Владелец видит свои продукты и опубликованные
+        elif user.is_authenticated:
+            return Product.objects.filter(Q(owner=user) | Q(is_published=True))
+
+        # Обычный пользователь видит только опубликованные продукты
+        return Product.objects.filter(is_published=True)
 
 
 class ProductDetailView(DetailView):
@@ -109,6 +125,15 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             return super().form_valid(form)
         else:
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
+
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if (user.has_perm('catalog.can_set_published') and user.has_perm('catalog.can_edit_product_description')
+                and user.has_perm('catalog.can_edit_category_product')):
+            return ProductModeratorsForm
+        raise PermissionDenied
 
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView):

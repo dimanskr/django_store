@@ -29,6 +29,13 @@ class ProductForm(forms.ModelForm):
         return cleaned_data
 
 
+class ProductModeratorsForm(forms.ModelForm):
+
+    class Meta:
+        model = Product
+        fields = ('description', 'category', 'is_published',)
+
+
 class VersionForm(forms.ModelForm):
     class Meta:
         model = Version

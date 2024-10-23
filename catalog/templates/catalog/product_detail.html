@@ -45,9 +45,22 @@
     </div>
     {% if user.is_authenticated %}
     <div class="mt-4 btn-group" role="group">
-        <a href="{% url 'catalog:product_update' object.pk %}" class="btn btn-primary m-1">Изменить продукт</a>
-        <a href="{% url 'catalog:product_delete' object.pk %}" class="btn btn-danger m-1">Удалить продукт</a>
+        {% if perms.catalog.can_set_published and perms.catalog.can_edit_product_description and perms.catalog.can_edit_category_product or user == product.owner %}
+        <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-primary m-1">Изменить продукт</a>
+        {% endif %}
+        {% if user.is_superuser or user == product.owner %}
+        <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger m-1">Удалить продукт</a>
+        {% endif %}
     </div>
     {% endif %}
+    <div class="mt-4 btn-group" role="group">
+        {% if perms.catalog.can_set_published or product.owner == user %}
+            {% if product.is_published %}
+            <span class="badge bg-success">Опубликован пользователем {{ product.owner }}</span>
+            {% else %}
+            <span class="badge bg-danger">Не опубликован, пользователь: {{ product.owner }}</span>
+            {% endif %}
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
