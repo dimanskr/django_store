@@ -1,10 +1,12 @@
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from catalog.forms import ProductForm, ProductVersionFormSet, ProductModeratorsForm
-from catalog.models import Product, Version
+from catalog.models import Product, Version, Category
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
+
+from catalog.services import get_categories_from_cache
 
 
 class ProductListView(ListView):
@@ -139,3 +141,13 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:product_list')
+
+
+class CategoryListView(ListView):
+    extra_context = {'title': 'Категории товаров', }
+    model = Category
+    paginate_by = 9
+    context_object_name = "category_list"
+
+    def get_queryset(self):
+        return get_categories_from_cache()
